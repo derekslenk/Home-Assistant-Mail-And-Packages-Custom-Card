@@ -2,7 +2,7 @@ import { LitElement, html, css, PropertyValues, TemplateResult, CSSResultGroup }
 import { customElement, property, state } from 'lit/decorators.js';
 import type { HomeAssistant, MailAndPackagesCardConfig, ConfigForm } from './types';
 
-const CARD_VERSION = '0.7.0';
+const CARD_VERSION = '0.8.0';
 
 // Fire event helper
 const fireEvent = (

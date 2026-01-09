@@ -32,7 +32,7 @@ dist/
 - **Editor**: Schema-based via `getConfigForm()` (no separate editor component)
 - **Card picker**: Registered via `window.customCards.push()`
 - **Required config**: `updated` sensor must be defined
-- **Version**: 0.7.0 (constant `CARD_VERSION` in source)
+- **Version**: 0.8.0 (constant `CARD_VERSION` in source)
 
 ## Card Configuration Options
 

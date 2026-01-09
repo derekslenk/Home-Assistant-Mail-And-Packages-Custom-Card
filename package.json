@@ -1,6 +1,6 @@
 {
   "name": "ha-mail-and-packages-card",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Custom Lovelace card to display mail and package delivery information for Home Assistant",
   "main": "dist/ha-mail-and-packages-card.js",
   "type": "module",
