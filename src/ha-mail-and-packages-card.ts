@@ -334,34 +334,22 @@ export class MailAndPackagesCard extends LitElement {
   }
 
   private _renderCamera(): TemplateResult {
-    const cameraEntity = this._config.camera_entity;
-    const cameraEntity2 = this._config.camera_entity_2;
+    const cameras: TemplateResult[] = [];
+    const cameraEntities = [this._config.camera_entity, this._config.camera_entity_2].filter(Boolean);
 
-    const cameras = [];
-
-    // Process first camera
-    if (cameraEntity) {
-      const camera = this.hass.states[cameraEntity];
+    cameraEntities.forEach((entityId, index) => {
+      const camera = this.hass.states[entityId as string];
       if (camera && camera.attributes.entity_picture) {
-        const timestamp = Date.now();
-        cameras.push(html`<img class="mail-image" src="${camera.attributes.entity_picture}&_t=${timestamp}" alt="Mail camera 1" />`);
+        const picture = camera.attributes.entity_picture as string;
+        // Use proper URL separator - ? if no query params exist, & if they do
+        const separator = picture.includes('?') ? '&' : '?';
+        // Use camera's update timestamp for cache-busting (only refreshes when camera actually updates)
+        const cacheKey = new Date(camera.last_updated).getTime();
+        cameras.push(html`<img class="mail-image" src="${picture}${separator}_t=${cacheKey}" alt="Mail camera ${index + 1}" />`);
       }
-    }
+    });
 
-    // Process second camera
-    if (cameraEntity2) {
-      const camera = this.hass.states[cameraEntity2];
-      if (camera && camera.attributes.entity_picture) {
-        const timestamp = Date.now();
-        cameras.push(html`<img class="mail-image" src="${camera.attributes.entity_picture}&_t=${timestamp}" alt="Mail camera 2" />`);
-      }
-    }
-
-    if (cameras.length === 0) {
-      return html``;
-    }
-
-    return html`<div class="camera-container">${cameras}</div>`;
+    return cameras.length > 0 ? html`<div class="camera-container">${cameras}</div>` : html``;
   }
 
   private _handleClick(): void {
