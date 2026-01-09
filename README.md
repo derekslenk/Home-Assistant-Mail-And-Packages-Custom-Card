@@ -1,63 +1,156 @@
-# Home-Assistant-Mail-And-Packages-Custom-Card
-A Custom Lovelace card to pull together the mail and packages sensors.
+# HA Mail and Packages Card
 
-<img src="https://github.com/moralmunky/Home-Assistant-Mail-And-Packages-Custom-Card/blob/master/img/card-image.png?raw=true" alt="Preview of card" />
+A modernized custom Lovelace card to display mail and package delivery information from the [Mail and Packages integration](https://github.com/moralmunky/Home-Assistant-Mail-And-Packages).
 
-## Lovelace GUI Setup
+> **Note:** This is a fork of [moralmunky/Home-Assistant-Mail-And-Packages-Custom-Card](https://github.com/moralmunky/Home-Assistant-Mail-And-Packages-Custom-Card) updated to work with Home Assistant 2024+.
 
-## Manual Install
-Both JS files need to be stored inside the path/to/config/www/ folder. In the Lovelace reource URL path, local is the same as the www folder. Construct your path to the JS inside the www folder for the resurce URL. For the example below:
-```
-path/to/config/www/Home-Assistant-Mail-And-Packages-Custom-Card/Home-Assistant-Mail-And-Packages-Custom-Card.js
+<img src="https://github.com/derekslenk/Home-Assistant-Mail-And-Packages-Custom-Card/blob/master/img/card-image.png?raw=true" alt="Preview of card" />
 
-path/to/config/www/Home-Assistant-Mail-And-Packages-Custom-Card/Home-Assistant-Mail-And-Packages-Custom-Card-editor.js
-```
-Configuration > Lovelace Dashboards > Resources
+## Installation
 
-```
-url: /local/Home-Assistant-Mail-And-Packages-Custom-Card/Home-Assistant-Mail-And-Packages-Custom-Card.js
-type: Javascript Module
-```
+### HACS (Recommended)
 
-## HACS Install
+1. Install [HACS](https://hacs.xyz) if you haven't already
+2. Add this repository as a custom repository:
+   - URL: `https://github.com/derekslenk/Home-Assistant-Mail-And-Packages-Custom-Card`
+   - Category: **Dashboard**
+3. Search for "HA Mail and Packages" in HACS Frontend
+4. Click Install
+5. Refresh your browser (clear cache if needed)
 
-[HACS](https://hacs.xyz) will install the files and add an entry in the Lovelace resource
-* Have [HACS](https://hacs.xyz) installed in your instance of HASS
-* Add URL: **https://github.com/moralmunky/Home-Assistant-Mail-And-Packages-Custom-Card** as a custom repository with Type: **LOVELACE**
-* Navigate to the Frontend directory
-* Search for Mail and Packages, then choose install
-* You may need to empty your browser cache for the frontend to recognize the new files.
+### Manual Installation
 
-HACS install path
-```
-/path/to/config/www/community/Home-Assistant-Mail-And-Packages-Custom-Card/
-```
-Path HACS adds to Lovelace resources
-```
-/hacsfiles/Home-Assistant-Mail-And-Packages-Custom-Card/Home-Assistant-Mail-And-Packages-Custom-Card.js
-```
+1. Download `ha-mail-and-packages-card.js` from the [latest release](https://github.com/derekslenk/Home-Assistant-Mail-And-Packages-Custom-Card/releases)
+2. Copy to your Home Assistant config: `config/www/ha-mail-and-packages-card.js`
+3. Add the resource in Home Assistant:
+   - Go to **Settings → Dashboards → Resources** (or **3-dot menu → Resources**)
+   - Add Resource:
+     ```
+     URL: /local/ha-mail-and-packages-card.js
+     Type: JavaScript Module
+     ```
+4. Refresh your browser
 
 ## Card Configuration
 
-Add a manual card then input the yaml below.
-```
-type: 'custom:mail-and-packages-card'
+### Using the Visual Editor
+
+1. Edit your dashboard
+2. Click **+ Add Card**
+3. Search for "HA Mail and Packages"
+4. Configure using the visual editor
+
+### YAML Configuration
+
+```yaml
+type: custom:ha-mail-and-packages-card
 name: Mail Summary
 updated: sensor.mail_updated
 details: true
 image: false
+camera: false
 ```
-Switch to the visual editor and complete the setup by assigning the sensors you have enabled in the [Mail and Packages integration](https://github.com/moralmunky/Home-Assistant-Mail-And-Packages).
 
-#### USPS Mail Image Display
-The mail images can be displayed by using the mail_today.gif directly or use a [local file camera entity](https://github.com/moralmunky/Home-Assistant-Mail-And-Packages/wiki/Example-Automations-and-Templates#camera). Use the blue toggle switches to turn either option on or off.
+### Configuration Options
 
-* Mail GIF Location: The mail_today.gif file must be saved in the `www` folder for the front end to load it. If the image is saved directly in the `www` folder you will use the path `/local/mail_today.gif`. Please see the [Mail and Packages Integration](https://github.com/moralmunky/Home-Assistant-Mail-And-Packages/wiki/Configuration-and-Email-Settings#configuration) configuration section for the path the integration should be set to based on the type of HASS installation you are using. Random image file name setting should be turned off. 
+| Option | Type | Required | Default | Description |
+|--------|------|----------|---------|-------------|
+| `name` | string | No | - | Card title |
+| `updated` | entity | **Yes** | - | Mail updated sensor (e.g., `sensor.mail_updated`) |
+| `details` | boolean | No | `true` | Show package counts section |
+| `image` | boolean | No | `false` | Show mail GIF image |
+| `camera` | boolean | No | `false` | Show camera entity image |
+| `deliveries_message` | entity | No | - | Custom delivery message sensor |
+| `packages_delivered` | entity | No | - | Total packages delivered today |
+| `packages_in_transit` | entity | No | - | Total packages in transit |
+| `usps_mail` | entity | No | - | USPS mail count |
+| `usps_packages` | entity | No | - | USPS packages |
+| `ups_packages` | entity | No | - | UPS packages |
+| `fedex_packages` | entity | No | - | FedEx packages |
+| `amazon_packages` | entity | No | - | Amazon packages |
+| `gif_sensor` | entity | No | - | Sensor containing path to mail GIF |
+| `camera_entity` | entity | No | - | Local file camera for mail image |
 
-* Camera Entity: Set up a [local file camera entity](https://www.home-assistant.io/integrations/local_file/) described in the [integrations WIKI](https://github.com/moralmunky/Home-Assistant-Mail-And-Packages/wiki/Example-Automations-and-Templates#camera). Set this option to the name of the local file camera entity you created.
+### Full Example
 
+```yaml
+type: custom:ha-mail-and-packages-card
+name: Mail Summary
+updated: sensor.mail_updated
+deliveries_message: sensor.mail_deliveries_message
+packages_delivered: sensor.mail_packages_delivered
+packages_in_transit: sensor.mail_packages_in_transit
+usps_mail: sensor.mail_usps_mail
+usps_packages: sensor.mail_usps_packages
+ups_packages: sensor.mail_ups_packages
+fedex_packages: sensor.mail_fedex_packages
+amazon_packages: sensor.mail_amazon_packages
+details: true
+image: true
+gif_sensor: sensor.mail_image_path
+camera: false
+```
 
-#### Delivery Message Sensor
-The delivery message sensor, `sensor.mail_delieveries`, is not created by the [Mail and Packages Integration](https://github.com/moralmunky/Home-Assistant-Mail-And-Packages/wiki/Example-Automations-and-Templates#post-0115). You must create a [template sensor](https://www.home-assistant.io/integrations/template/). This is left out of the integration on purpose so they can customize as they see fit.
+## Mail Image Display
 
-<img src="https://github.com/moralmunky/Home-Assistant-Mail-And-Packages-Custom-Card/blob/master/img/visual-editor.png?raw=true" alt="Preview of visual-editor" />
+You can display USPS Informed Delivery images using either method:
+
+### Option 1: GIF Sensor
+Set `image: true` and configure `gif_sensor` to point to a sensor containing the path to your `mail_today.gif` file. The GIF must be in your `www` folder (e.g., `/local/mail_today.gif`).
+
+### Option 2: Camera Entity
+Set `camera: true` and configure `camera_entity` to point to a [local file camera](https://www.home-assistant.io/integrations/local_file/) entity.
+
+## Development
+
+### Prerequisites
+- Node.js 18+
+- npm
+
+### Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/derekslenk/Home-Assistant-Mail-And-Packages-Custom-Card.git
+cd Home-Assistant-Mail-And-Packages-Custom-Card
+
+# Install dependencies
+npm install
+
+# Build for production
+npm run build
+
+# Development with watch mode
+npm run dev
+```
+
+### Project Structure
+
+```
+├── src/
+│   ├── ha-mail-and-packages-card.ts  # Main card component
+│   └── types.ts                       # TypeScript interfaces
+├── dist/
+│   └── ha-mail-and-packages-card.js  # Built output
+├── package.json
+├── rollup.config.mjs
+└── tsconfig.json
+```
+
+## Changelog
+
+### v0.7.0
+- Modernized to work with Home Assistant 2024+
+- Migrated to TypeScript with bundled Lit
+- Replaced custom editor with schema-based configuration
+- Card now appears in the card picker
+- Improved performance with proper reactive updates
+- Renamed to `ha-mail-and-packages-card`
+
+### v0.06 (Original)
+- Legacy version from original repository
+
+## Related Projects
+
+- [Mail and Packages Integration](https://github.com/moralmunky/Home-Assistant-Mail-And-Packages) - The integration that provides the sensors for this card
+- [Original Card](https://github.com/moralmunky/Home-Assistant-Mail-And-Packages-Custom-Card) - The original card this is forked from

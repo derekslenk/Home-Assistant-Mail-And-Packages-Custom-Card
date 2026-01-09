@@ -1,6 +1,6 @@
 {
-  "name": "Mail and Packages Custom Card",
+  "name": "HA Mail and Packages Card",
   "render_readme": true,
-  "homeassistant": "0.100",
-  "filename": "Home-Assistant-Mail-And-Packages-Custom-Card.js"
+  "homeassistant": "2024.1.0",
+  "filename": "ha-mail-and-packages-card.js"
 }
