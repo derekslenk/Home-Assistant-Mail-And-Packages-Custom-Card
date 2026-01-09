@@ -117,8 +117,14 @@ export class MailAndPackagesCard extends LitElement {
         },
         {
           name: 'camera_entity',
-          label: 'Camera Entity',
-          helper: 'Local file camera entity for mail image',
+          label: 'Camera Entity (Primary)',
+          helper: 'First camera entity (e.g., generic delivery camera)',
+          selector: { entity: { domain: 'camera' } }
+        },
+        {
+          name: 'camera_entity_2',
+          label: 'Camera Entity (Secondary)',
+          helper: 'Optional second camera entity (stacks vertically below primary)',
           selector: { entity: { domain: 'camera' } }
         },
       ],
@@ -173,6 +179,7 @@ export class MailAndPackagesCard extends LitElement {
       this._config.amazon_packages,
       this._config.gif_sensor,
       this._config.camera_entity,
+      this._config.camera_entity_2,
     ].filter(Boolean) as string[];
 
     return entities.some(
@@ -328,23 +335,33 @@ export class MailAndPackagesCard extends LitElement {
 
   private _renderCamera(): TemplateResult {
     const cameraEntity = this._config.camera_entity;
-    if (!cameraEntity) {
+    const cameraEntity2 = this._config.camera_entity_2;
+
+    const cameras = [];
+
+    // Process first camera
+    if (cameraEntity) {
+      const camera = this.hass.states[cameraEntity];
+      if (camera && camera.attributes.entity_picture) {
+        const timestamp = Date.now();
+        cameras.push(html`<img class="mail-image" src="${camera.attributes.entity_picture}&_t=${timestamp}" alt="Mail camera 1" />`);
+      }
+    }
+
+    // Process second camera
+    if (cameraEntity2) {
+      const camera = this.hass.states[cameraEntity2];
+      if (camera && camera.attributes.entity_picture) {
+        const timestamp = Date.now();
+        cameras.push(html`<img class="mail-image" src="${camera.attributes.entity_picture}&_t=${timestamp}" alt="Mail camera 2" />`);
+      }
+    }
+
+    if (cameras.length === 0) {
       return html``;
     }
 
-    const camera = this.hass.states[cameraEntity];
-    if (!camera) {
-      return html``;
-    }
-
-    const cameraUrl = camera.attributes.entity_picture;
-    if (!cameraUrl) {
-      return html``;
-    }
-
-    // Add cache-busting parameter
-    const timestamp = Date.now();
-    return html`<img class="mail-image" src="${cameraUrl}&_t=${timestamp}" alt="Mail camera" />`;
+    return html`<div class="camera-container">${cameras}</div>`;
   }
 
   private _handleClick(): void {
@@ -431,11 +448,25 @@ export class MailAndPackagesCard extends LitElement {
         color: var(--secondary-text-color);
       }
 
+      .camera-container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
       .mail-image {
         width: 100%;
         height: auto;
         margin-top: 12px;
         border-radius: 4px;
+      }
+
+      .camera-container .mail-image {
+        margin-top: 0;
+      }
+
+      .camera-container .mail-image:first-child {
+        margin-top: 12px;
       }
 
       .update-info {

@@ -33,6 +33,7 @@ export interface MailAndPackagesCardConfig {
   usps_mail?: string;
   gif_sensor?: string;
   camera_entity?: string;
+  camera_entity_2?: string;
   details?: boolean;
   image?: boolean;
   camera?: boolean;

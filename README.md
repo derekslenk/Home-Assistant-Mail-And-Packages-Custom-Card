@@ -92,7 +92,8 @@ The [Mail and Packages integration](https://github.com/moralmunky/Home-Assistant
 | `fedex_packages` | entity | No | - | FedEx package total (e.g., `sensor.mail_fedex_packages`) |
 | `amazon_packages` | entity | No | - | Amazon package total (e.g., `sensor.mail_amazon_packages`) |
 | `gif_sensor` | entity | No | - | Mail image sensor (e.g., `sensor.mail_image_url` or `sensor.mail_image_system_path`) |
-| `camera_entity` | entity | No | - | Local file camera entity for mail image |
+| `camera_entity` | entity | No | - | Primary camera entity (e.g., generic delivery camera) |
+| `camera_entity_2` | entity | No | - | Optional second camera entity (stacks vertically below primary) |
 
 ### Full Example
 
@@ -123,6 +124,8 @@ Set `image: true` and configure `gif_sensor` to point to a sensor containing the
 
 ### Option 2: Camera Entity
 Set `camera: true` and configure `camera_entity` to point to a [local file camera](https://www.home-assistant.io/integrations/local_file/) entity.
+
+**Multiple Cameras:** You can display two camera feeds stacked vertically by configuring both `camera_entity` and `camera_entity_2`. This is useful for showing different delivery cameras (e.g., generic delivery camera and carrier-specific cameras).
 
 ## Development
 
