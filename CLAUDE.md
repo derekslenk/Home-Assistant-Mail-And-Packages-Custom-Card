@@ -52,7 +52,8 @@ dist/
 | `amazon_packages` | sensor | Amazon total packages (e.g., `sensor.mail_amazon_packages`) |
 | `usps_mail` | sensor | USPS mail piece count from Informed Delivery (e.g., `sensor.mail_usps_mail`) |
 | `gif_sensor` | sensor | Mail image sensor (e.g., `sensor.mail_image_url` or `sensor.mail_image_system_path`) |
-| `camera_entity` | camera | Local file camera entity for mail image |
+| `camera_entity` | camera | Primary camera entity (e.g., generic delivery camera) |
+| `camera_entity_2` | camera | Optional second camera entity (stacks vertically below primary) |
 
 ## Development Notes
 
