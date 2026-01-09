@@ -42,6 +42,8 @@ export interface MailAndPackagesCardConfig {
 export interface ConfigFormSchema {
   name: string;
   required?: boolean;
+  label?: string;
+  helper?: string;
   selector: {
     text?: object;
     entity?: { domain?: string };

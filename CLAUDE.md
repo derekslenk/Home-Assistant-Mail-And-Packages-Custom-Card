@@ -38,17 +38,21 @@ dist/
 
 | Option | Type | Description |
 |--------|------|-------------|
-| `updated` | sensor | **Required** - Mail updated timestamp sensor |
+| `updated` | sensor | **Required** - Mail updated timestamp (`sensor.mail_updated`) |
 | `name` | string | Card title |
 | `details` | boolean | Show package counts section (default: true) |
 | `image` | boolean | Show GIF from `gif_sensor` (default: false) |
 | `camera` | boolean | Show camera entity image (default: false) |
-| `deliveries_message` | sensor | Custom template sensor for delivery summary |
-| `packages_delivered`, `packages_in_transit` | sensor | Total package counts |
-| `usps_packages`, `ups_packages`, `fedex_packages`, `amazon_packages` | sensor | Per-carrier counts |
-| `usps_mail` | sensor | USPS mail piece count |
-| `gif_sensor` | sensor | Sensor containing path to mail_today.gif |
-| `camera_entity` | camera | Local file camera for mail image |
+| `deliveries_message` | sensor | Optional template sensor for custom delivery summary |
+| `packages_delivered` | sensor | **Aggregate** total delivered today from all carriers (`sensor.zpackages_delivered`) |
+| `packages_in_transit` | sensor | **Aggregate** total in transit today from all carriers (`sensor.zpackages_transit`) |
+| `usps_packages` | sensor | USPS total packages (`sensor.usps_packages`, or use `usps_delivered`/`usps_delivering`) |
+| `ups_packages` | sensor | UPS total packages (`sensor.ups_packages`, or use `ups_delivered`/`ups_delivering`) |
+| `fedex_packages` | sensor | FedEx total packages (`sensor.fedex_packages`, or use `fedex_delivered`/`fedex_delivering`) |
+| `amazon_packages` | sensor | Amazon total packages (`sensor.amazon_packages`) |
+| `usps_mail` | sensor | USPS mail piece count from Informed Delivery (`sensor.usps_mail`) |
+| `gif_sensor` | sensor | Mail image sensor (`sensor.mail_image_url` or `sensor.mail_image_system_path`) |
+| `camera_entity` | camera | Local file camera entity for mail image |
 
 ## Development Notes
 

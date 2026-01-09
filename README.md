@@ -38,7 +38,7 @@ A modernized custom Lovelace card to display mail and package delivery informati
 1. Edit your dashboard
 2. Click **+ Add Card**
 3. Search for "HA Mail and Packages"
-4. Configure using the visual editor
+4. Configure using the visual editor with helpful labels and descriptions
 
 ### YAML Configuration
 
@@ -51,25 +51,53 @@ image: false
 camera: false
 ```
 
+### Available Sensors from Mail and Packages Integration
+
+The [Mail and Packages integration](https://github.com/moralmunky/Home-Assistant-Mail-And-Packages) provides these sensor types:
+
+**Aggregate Sensors:**
+- `sensor.zpackages_delivered` - Total packages delivered today (all carriers)
+- `sensor.zpackages_transit` - Total packages in transit today (all carriers)
+
+**Per-Carrier Sensors:**
+- `sensor.usps_packages` - Total USPS packages
+- `sensor.usps_delivered` - USPS packages delivered today
+- `sensor.usps_delivering` - USPS packages in transit today
+- `sensor.ups_packages` - Total UPS packages
+- `sensor.ups_delivered` - UPS packages delivered today
+- `sensor.ups_delivering` - UPS packages in transit today
+- `sensor.fedex_packages` - Total FedEx packages
+- `sensor.fedex_delivered` - FedEx packages delivered today
+- `sensor.fedex_delivering` - FedEx packages in transit today
+- `sensor.amazon_packages` - Total Amazon packages
+- `sensor.amazon_delivered` - Amazon packages delivered today
+
+**USPS Mail:**
+- `sensor.usps_mail` - Mail piece count from USPS Informed Delivery
+
+**Mail Images:**
+- `sensor.mail_image_url` - Web-accessible URL to mail image
+- `sensor.mail_image_system_path` - Local file system path to mail image
+
 ### Configuration Options
 
 | Option | Type | Required | Default | Description |
 |--------|------|----------|---------|-------------|
 | `name` | string | No | - | Card title |
-| `updated` | entity | **Yes** | - | Mail updated sensor (e.g., `sensor.mail_updated`) |
+| `updated` | entity | **Yes** | - | Mail updated sensor (`sensor.mail_updated`) |
 | `details` | boolean | No | `true` | Show package counts section |
 | `image` | boolean | No | `false` | Show mail GIF image |
 | `camera` | boolean | No | `false` | Show camera entity image |
-| `deliveries_message` | entity | No | - | Custom delivery message sensor |
-| `packages_delivered` | entity | No | - | Total packages delivered today |
-| `packages_in_transit` | entity | No | - | Total packages in transit |
-| `usps_mail` | entity | No | - | USPS mail count |
-| `usps_packages` | entity | No | - | USPS packages |
-| `ups_packages` | entity | No | - | UPS packages |
-| `fedex_packages` | entity | No | - | FedEx packages |
-| `amazon_packages` | entity | No | - | Amazon packages |
-| `gif_sensor` | entity | No | - | Sensor containing path to mail GIF |
-| `camera_entity` | entity | No | - | Local file camera for mail image |
+| `deliveries_message` | entity | No | - | Optional template sensor for custom delivery summary |
+| `packages_delivered` | entity | No | - | **Aggregate:** `sensor.zpackages_delivered` - total delivered today (all carriers) |
+| `packages_in_transit` | entity | No | - | **Aggregate:** `sensor.zpackages_transit` - total in transit today (all carriers) |
+| `usps_mail` | entity | No | - | USPS mail piece count (`sensor.usps_mail`) |
+| `usps_packages` | entity | No | - | USPS package total (`sensor.usps_packages`, or use `usps_delivered`/`usps_delivering`) |
+| `ups_packages` | entity | No | - | UPS package total (`sensor.ups_packages`, or use `ups_delivered`/`ups_delivering`) |
+| `fedex_packages` | entity | No | - | FedEx package total (`sensor.fedex_packages`, or use `fedex_delivered`/`fedex_delivering`) |
+| `amazon_packages` | entity | No | - | Amazon package total (`sensor.amazon_packages`) |
+| `gif_sensor` | entity | No | - | Mail image sensor (`sensor.mail_image_url` or `sensor.mail_image_system_path`) |
+| `camera_entity` | entity | No | - | Local file camera entity for mail image |
 
 ### Full Example
 
@@ -77,17 +105,17 @@ camera: false
 type: custom:ha-mail-and-packages-card
 name: Mail Summary
 updated: sensor.mail_updated
-deliveries_message: sensor.mail_deliveries_message
-packages_delivered: sensor.mail_packages_delivered
-packages_in_transit: sensor.mail_packages_in_transit
-usps_mail: sensor.mail_usps_mail
-usps_packages: sensor.mail_usps_packages
-ups_packages: sensor.mail_ups_packages
-fedex_packages: sensor.mail_fedex_packages
-amazon_packages: sensor.mail_amazon_packages
+deliveries_message: sensor.mail_deliveries_message  # Optional custom template sensor
+packages_delivered: sensor.zpackages_delivered      # Aggregate - all carriers delivered today
+packages_in_transit: sensor.zpackages_transit       # Aggregate - all carriers in transit today
+usps_mail: sensor.usps_mail                         # USPS mail pieces
+usps_packages: sensor.usps_packages                 # USPS total packages
+ups_packages: sensor.ups_packages                   # UPS total packages
+fedex_packages: sensor.fedex_packages               # FedEx total packages
+amazon_packages: sensor.amazon_packages             # Amazon total packages
 details: true
 image: true
-gif_sensor: sensor.mail_image_path
+gif_sensor: sensor.mail_image_url                   # Or sensor.mail_image_system_path
 camera: false
 ```
 

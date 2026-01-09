@@ -30,21 +30,97 @@ export class MailAndPackagesCard extends LitElement {
   public static getConfigForm(): ConfigForm {
     return {
       schema: [
-        { name: 'name', selector: { text: {} } },
-        { name: 'updated', required: true, selector: { entity: { domain: 'sensor' } } },
-        { name: 'deliveries_message', selector: { entity: { domain: 'sensor' } } },
-        { name: 'packages_delivered', selector: { entity: { domain: 'sensor' } } },
-        { name: 'packages_in_transit', selector: { entity: { domain: 'sensor' } } },
-        { name: 'usps_mail', selector: { entity: { domain: 'sensor' } } },
-        { name: 'usps_packages', selector: { entity: { domain: 'sensor' } } },
-        { name: 'ups_packages', selector: { entity: { domain: 'sensor' } } },
-        { name: 'fedex_packages', selector: { entity: { domain: 'sensor' } } },
-        { name: 'amazon_packages', selector: { entity: { domain: 'sensor' } } },
-        { name: 'details', selector: { boolean: {} } },
-        { name: 'image', selector: { boolean: {} } },
-        { name: 'gif_sensor', selector: { entity: { domain: 'sensor' } } },
-        { name: 'camera', selector: { boolean: {} } },
-        { name: 'camera_entity', selector: { entity: { domain: 'camera' } } },
+        {
+          name: 'name',
+          label: 'Card Title',
+          helper: 'Optional display name for the card',
+          selector: { text: {} }
+        },
+        {
+          name: 'updated',
+          required: true,
+          label: 'Mail Updated Sensor',
+          helper: 'Required: sensor.mail_updated from Mail and Packages integration',
+          selector: { entity: { domain: 'sensor' } }
+        },
+        {
+          name: 'deliveries_message',
+          label: 'Delivery Summary Message',
+          helper: 'Optional template sensor for custom delivery summary text',
+          selector: { entity: { domain: 'sensor' } }
+        },
+        {
+          name: 'packages_delivered',
+          label: 'Total Delivered (All Carriers)',
+          helper: 'Aggregate sensor: sensor.zpackages_delivered - packages delivered today from all carriers',
+          selector: { entity: { domain: 'sensor' } }
+        },
+        {
+          name: 'packages_in_transit',
+          label: 'Total In Transit (All Carriers)',
+          helper: 'Aggregate sensor: sensor.zpackages_transit - packages scheduled for delivery today, still in transit',
+          selector: { entity: { domain: 'sensor' } }
+        },
+        {
+          name: 'usps_mail',
+          label: 'USPS Mail Pieces',
+          helper: 'sensor.usps_mail - mail piece count from USPS Informed Delivery',
+          selector: { entity: { domain: 'sensor' } }
+        },
+        {
+          name: 'usps_packages',
+          label: 'USPS Packages',
+          helper: 'sensor.usps_packages - total USPS package count (use usps_delivered or usps_delivering for specific status)',
+          selector: { entity: { domain: 'sensor' } }
+        },
+        {
+          name: 'ups_packages',
+          label: 'UPS Packages',
+          helper: 'sensor.ups_packages - total UPS package count (use ups_delivered or ups_delivering for specific status)',
+          selector: { entity: { domain: 'sensor' } }
+        },
+        {
+          name: 'fedex_packages',
+          label: 'FedEx Packages',
+          helper: 'sensor.fedex_packages - total FedEx package count (use fedex_delivered or fedex_delivering for specific status)',
+          selector: { entity: { domain: 'sensor' } }
+        },
+        {
+          name: 'amazon_packages',
+          label: 'Amazon Packages',
+          helper: 'sensor.amazon_packages - total Amazon package count',
+          selector: { entity: { domain: 'sensor' } }
+        },
+        {
+          name: 'details',
+          label: 'Show Details Section',
+          helper: 'Display package counts and carrier information',
+          selector: { boolean: {} }
+        },
+        {
+          name: 'image',
+          label: 'Show Mail Image (GIF)',
+          helper: 'Display USPS Informed Delivery mail image from gif_sensor',
+          selector: { boolean: {} }
+        },
+        {
+          name: 'gif_sensor',
+          label: 'Mail Image GIF Sensor',
+          helper: 'sensor.mail_image_url or sensor.mail_image_system_path - USPS Informed Delivery image',
+          selector: { entity: { domain: 'sensor' } }
+        },
+        {
+          name: 'camera',
+          label: 'Show Camera Image',
+          helper: 'Display image from a local file camera entity',
+          selector: { boolean: {} }
+        },
+        {
+          name: 'camera_entity',
+          label: 'Camera Entity',
+          helper: 'Local file camera entity for mail image',
+          selector: { entity: { domain: 'camera' } }
+        },
       ],
     };
   }
@@ -164,7 +240,7 @@ export class MailAndPackagesCard extends LitElement {
             ? html`
                 <li>
                   <ha-icon icon="mdi:package"></ha-icon>
-                  <span>Deliveries: ${packagesDelivered}</span>
+                  <span>Delivered Today: ${packagesDelivered}</span>
                 </li>
               `
             : ''}
@@ -172,7 +248,7 @@ export class MailAndPackagesCard extends LitElement {
             ? html`
                 <li>
                   <ha-icon icon="mdi:truck-delivery"></ha-icon>
-                  <span>In Transit: ${packagesInTransit}</span>
+                  <span>In Transit Today: ${packagesInTransit}</span>
                 </li>
               `
             : ''}
