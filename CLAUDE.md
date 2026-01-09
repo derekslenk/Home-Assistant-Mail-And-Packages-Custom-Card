@@ -44,14 +44,14 @@ dist/
 | `image` | boolean | Show GIF from `gif_sensor` (default: false) |
 | `camera` | boolean | Show camera entity image (default: false) |
 | `deliveries_message` | sensor | Optional template sensor for custom delivery summary |
-| `packages_delivered` | sensor | **Aggregate** total delivered today from all carriers (`sensor.zpackages_delivered`) |
-| `packages_in_transit` | sensor | **Aggregate** total in transit today from all carriers (`sensor.zpackages_transit`) |
-| `usps_packages` | sensor | USPS total packages (`sensor.usps_packages`, or use `usps_delivered`/`usps_delivering`) |
-| `ups_packages` | sensor | UPS total packages (`sensor.ups_packages`, or use `ups_delivered`/`ups_delivering`) |
-| `fedex_packages` | sensor | FedEx total packages (`sensor.fedex_packages`, or use `fedex_delivered`/`fedex_delivering`) |
-| `amazon_packages` | sensor | Amazon total packages (`sensor.amazon_packages`) |
-| `usps_mail` | sensor | USPS mail piece count from Informed Delivery (`sensor.usps_mail`) |
-| `gif_sensor` | sensor | Mail image sensor (`sensor.mail_image_url` or `sensor.mail_image_system_path`) |
+| `packages_delivered` | sensor | **Aggregate** total delivered today from all carriers (e.g., `sensor.mail_packages_delivered`) |
+| `packages_in_transit` | sensor | **Aggregate** total in transit today from all carriers (e.g., `sensor.mail_packages_in_transit`) |
+| `usps_packages` | sensor | USPS total packages (e.g., `sensor.mail_usps_packages`, or use `mail_usps_delivered`/`mail_usps_delivering`) |
+| `ups_packages` | sensor | UPS total packages (e.g., `sensor.mail_ups_packages`, or use `mail_ups_delivered`/`mail_ups_delivering`) |
+| `fedex_packages` | sensor | FedEx total packages (e.g., `sensor.mail_fedex_packages`, or use `mail_fedex_delivered`/`mail_fedex_delivering`) |
+| `amazon_packages` | sensor | Amazon total packages (e.g., `sensor.mail_amazon_packages`) |
+| `usps_mail` | sensor | USPS mail piece count from Informed Delivery (e.g., `sensor.mail_usps_mail`) |
+| `gif_sensor` | sensor | Mail image sensor (e.g., `sensor.mail_image_url` or `sensor.mail_image_system_path`) |
 | `camera_entity` | camera | Local file camera entity for mail image |
 
 ## Development Notes

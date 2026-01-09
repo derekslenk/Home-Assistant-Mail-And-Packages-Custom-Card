@@ -52,43 +52,43 @@ export class MailAndPackagesCard extends LitElement {
         {
           name: 'packages_delivered',
           label: 'Total Delivered (All Carriers)',
-          helper: 'Aggregate sensor: sensor.zpackages_delivered - packages delivered today from all carriers',
+          helper: 'Aggregate sensor: e.g., sensor.mail_packages_delivered - packages delivered today from all carriers',
           selector: { entity: { domain: 'sensor' } }
         },
         {
           name: 'packages_in_transit',
           label: 'Total In Transit (All Carriers)',
-          helper: 'Aggregate sensor: sensor.zpackages_transit - packages scheduled for delivery today, still in transit',
+          helper: 'Aggregate sensor: e.g., sensor.mail_packages_in_transit - packages scheduled for delivery today, still in transit',
           selector: { entity: { domain: 'sensor' } }
         },
         {
           name: 'usps_mail',
           label: 'USPS Mail Pieces',
-          helper: 'sensor.usps_mail - mail piece count from USPS Informed Delivery',
+          helper: 'e.g., sensor.mail_usps_mail - mail piece count from USPS Informed Delivery',
           selector: { entity: { domain: 'sensor' } }
         },
         {
           name: 'usps_packages',
           label: 'USPS Packages',
-          helper: 'sensor.usps_packages - total USPS package count (use usps_delivered or usps_delivering for specific status)',
+          helper: 'e.g., sensor.mail_usps_packages - total USPS package count (or use mail_usps_delivered/mail_usps_delivering for specific status)',
           selector: { entity: { domain: 'sensor' } }
         },
         {
           name: 'ups_packages',
           label: 'UPS Packages',
-          helper: 'sensor.ups_packages - total UPS package count (use ups_delivered or ups_delivering for specific status)',
+          helper: 'e.g., sensor.mail_ups_packages - total UPS package count (or use mail_ups_delivered/mail_ups_delivering for specific status)',
           selector: { entity: { domain: 'sensor' } }
         },
         {
           name: 'fedex_packages',
           label: 'FedEx Packages',
-          helper: 'sensor.fedex_packages - total FedEx package count (use fedex_delivered or fedex_delivering for specific status)',
+          helper: 'e.g., sensor.mail_fedex_packages - total FedEx package count (or use mail_fedex_delivered/mail_fedex_delivering for specific status)',
           selector: { entity: { domain: 'sensor' } }
         },
         {
           name: 'amazon_packages',
           label: 'Amazon Packages',
-          helper: 'sensor.amazon_packages - total Amazon package count',
+          helper: 'e.g., sensor.mail_amazon_packages - total Amazon package count',
           selector: { entity: { domain: 'sensor' } }
         },
         {
